@@ -1,10 +1,10 @@
 <!-- resources/views/livewire/produk-table.blade.php -->
-<div class="px-4 py-6 bg-gray-100 min-h-screen y-32">
+<div class="px-4 py-20 bg-gray-100 min-h-screen">
     <div class="bg-white p-6 shadow-xl rounded-lg">
-        <input wire:model.debounce.300ms="search" class="border border-gray-300 p-2 mb-4" placeholder="Search...">
+        <input wire:model.live.debounce.300ms="search" class="border border-gray-300 p-2 mb-4" placeholder="Search...">
 
         <div class="overflow-x-auto">
-            <table class="table-auto w-full border-collapse border border-gray-300">
+            <table class="table-auto w-full border-separate border-spacing-2 border border-slate-400">
                 <thead>
                     <tr class="bg-gray-200">
                         <th class="border border-gray-300 p-2">No</th>
@@ -17,11 +17,11 @@
                 <tbody>
                     @foreach ($produk as $index => $item)
                         <tr wire:key="{{ $item->kd_material }}">
-                            <td class="border border-gray-300 p-2">{{ $produk->firstItem() + $index }}</td>
+                            <td class="border border-gray-300 p-2 text-center">{{ $produk->firstItem() + $index }}</td>
                             <td class="border border-gray-300 p-2">{{ $item->kd_produk }}</td>
                             <td class="border border-gray-300 p-2">{{ $item->deskripsi }}</td>
-                            <td class="border border-gray-300 p-2">{{ $item->speed }}</td>
-                            <td class="border border-gray-300 p-2">{{ $item->isi_dus }}</td>
+                            <td class="border border-gray-300 p-2 text-center">{{ $item->speed }}</td>
+                            <td class="border border-gray-300 p-2 text-center">{{ $item->isi_dus }}</td>
                         </tr>
                     @endforeach
                 </tbody>
@@ -29,6 +29,16 @@
         </div>
 
         @if ($produk->hasPages())
+            <div class="px-4 py-3">
+                <div class="flex space-x-4 items-center mb-3">
+                    <label>Page</label>
+                    <select wire:model.live="pages">
+                        <option value="10">10</option>
+                        <option value="25">25</option>
+                        <option value="50">50</option>
+                    </select>
+                </div>
+            </div>
             <div class="px-4 py-3 bg-white border-t border-gray-200">
                 {{ $produk->links() }}
             </div>

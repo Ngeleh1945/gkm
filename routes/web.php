@@ -16,4 +16,5 @@ Route::middleware([
     })->name('dashboard');
 
     Route::get('/produk', \App\Livewire\Produk::class)->name('data.produk');
+    Route::get('/formTimbangan', \App\Livewire\FormTimbangan::class)->name('form.timbangan');
 });

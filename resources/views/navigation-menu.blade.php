@@ -1,4 +1,4 @@
-<nav x-data="{ open: false }" class="bg-white border-b border-gray-100 ">
+<nav x-data="{ open: false }" class="bg-white border-b border-gray-100 fixed top-0 left-0 w-full z-10">
     <!-- Primary Navigation Menu -->
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="flex justify-between h-16">
@@ -19,6 +19,11 @@
                 <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
                     <x-nav-link href="{{ route('data.produk') }}" :active="request()->routeIs('Produk')">
                         {{ __('Produk') }}
+                    </x-nav-link>
+                </div>
+                <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
+                    <x-nav-link href="{{ route('form.timbangan') }}" :active="request()->routeIs('FormTimbangan')">
+                        {{ __('Form Timbangan') }}
                     </x-nav-link>
                 </div>
             </div>
@@ -161,6 +166,9 @@
             <x-responsive-nav-link href="{{ route('data.produk') }}" :active="request()->routeIs('Produk')">
                 {{ __('Produk') }}
             </x-responsive-nav-link>
+            <x-responsive-nav-link href="{{ route('form.timbangan') }}" :active="request()->routeIs('FormTimbangan')">
+                {{ __('Form Timbangan') }}
+            </x-responsive-nav-link>
         </div>
 
         <!-- Responsive Settings Options -->
@@ -208,7 +216,6 @@
                         {{ __('Manage Team') }}
                     </div>
 
-                    <!-- Team Settings -->
                     <x-responsive-nav-link href="{{ route('teams.show', Auth::user()->currentTeam->id) }}"
                         :active="request()->routeIs('teams.show')">
                         {{ __('Team Settings') }}
@@ -220,18 +227,16 @@
                         </x-responsive-nav-link>
                     @endcan
 
+                    <div class="border-t border-gray-200"></div>
+
                     <!-- Team Switcher -->
-                    @if (Auth::user()->allTeams()->count() > 1)
-                        <div class="border-t border-gray-200"></div>
+                    <div class="block px-4 py-2 text-xs text-gray-400">
+                        {{ __('Switch Teams') }}
+                    </div>
 
-                        <div class="block px-4 py-2 text-xs text-gray-400">
-                            {{ __('Switch Teams') }}
-                        </div>
-
-                        @foreach (Auth::user()->allTeams() as $team)
-                            <x-switchable-team :team="$team" component="responsive-nav-link" />
-                        @endforeach
-                    @endif
+                    @foreach (Auth::user()->allTeams() as $team)
+                        <x-switchable-team :team="$team" component="x-responsive-nav-link" />
+                    @endforeach
                 @endif
             </div>
         </div>

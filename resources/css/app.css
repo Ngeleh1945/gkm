@@ -5,3 +5,9 @@
 [x-cloak] {
     display: none;
 }
+
+#qr-code-full-region {
+    width: 20%;
+    max-width: 100%;
+    height: auto;
+}
