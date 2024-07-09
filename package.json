@@ -3,8 +3,8 @@
     "type": "module",
     "scripts": {
         "dev": "concurrently --kill-others \"npm run dev:vite\" \"npm run dev:php\"",
-        "dev:vite": "vite",
-        "dev:php": "php artisan serve",
+        "dev:vite": "vite --host 10.126.25.120",
+        "dev:php": "php artisan serve --host=10.126.25.120 --port=1945",
         "build": "vite build"
     },
     "devDependencies": {
