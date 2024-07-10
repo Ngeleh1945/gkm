@@ -2,6 +2,7 @@
 
 namespace App\Livewire;
 
+use DateTime;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Livewire\Component;
@@ -14,16 +15,48 @@ class FormTimbangan extends Component
     public $po;
     public $tanggal;
     public $batch;
+    public $nik;
+    public $nama;
+    public $mesin;
 
     public function handleBarcodeEnter()
     {
 
         $this->kd_material = substr(substr($this->barcode, 0, 18), -6);
-        $flavour = DB::table('produk')->where('kd_material', $this->kd_material)->get();
-        $this->flavour = $flavour->kd_produk;
+        try {
+            $flavour = DB::connection('sqlsrv2')->table('produk')->where('kd_material', $this->kd_material)->first();
+
+            if ($flavour) {
+                $this->flavour = $flavour->kd_produk;
+            } else {
+                $this->flavour = 'Data tidak ditemukan';
+            }
+        } catch (\Exception $e) {
+            Log::error("Error: " . $e->getMessage());
+            $this->flavour = 'Error: Tabel tidak ditemukan';
+        }
         $this->po = substr($this->barcode, 19, 11);
         $this->tanggal = $this->convertProductionDate(substr($this->barcode, 33, 5));
         $this->batch = substr($this->barcode, 30, 13);
+        $this->mesin = $this->mesin = (int) substr($this->batch, 8, 3);
+        try {
+            $jadwal = DB::connection('sqlsrv2')->table('jadwal')
+                ->where('tanggal', $this->convertDate($this->tanggal))
+                ->where('mesin', $this->mesin)
+                ->where('shift_label', substr($this->batch, 2, 1))->first();
+
+            if ($jadwal) {
+                $this->nik = $jadwal->nik;
+                $this->nama = $jadwal->nama;
+            } else {
+                $this->nik = 'Data tidak ditemukan';
+                $this->nama = 'Data tidak ditemukan';
+            }
+        } catch (\Exception $e) {
+            Log::error("Error: " . $e->getMessage());
+            $this->nik = 'Error: Tabel tidak ditemukan';
+            $this->nama = 'Error: Tabel tidak ditemukan';
+        }
         Log::info($this->tanggal);
     }
 
@@ -38,16 +71,21 @@ class FormTimbangan extends Component
         $monthCode = substr($barcodeDate, 2, 1);
         $year = '20' . substr($barcodeDate, 3, 2);
 
-        // Mapping dari huruf ke bulan
         $months = [
             'A' => '01', 'B' => '02', 'C' => '03', 'D' => '04',
             'E' => '05', 'F' => '06', 'G' => '07', 'H' => '08',
             'I' => '09', 'J' => '10', 'K' => '11', 'L' => '12'
         ];
 
-        $month = $months[strtoupper($monthCode)] ?? '00'; // Default ke '00' jika tidak ditemukan
+        $month = $months[strtoupper($monthCode)] ?? '00';
 
-        return "{$month}/{$day}/{$year}";
+        return "{$day}-{$month}-{$year}";
+    }
+
+    private function convertDate($selectDate)
+    {
+        $date = DateTime::createFromFormat('d-m-Y', $selectDate);
+        return $date->format('Y-m-d');
     }
 
     public function render()
