@@ -1,6 +1,5 @@
 <?php
 
-use App\Livewire\FormTimbangan;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -18,6 +17,7 @@ Route::middleware([
 
     Route::get('/produk', \App\Livewire\Produk::class)->name('data.produk');
     Route::get('/formTimbangan', \App\Livewire\FormTimbangan::class)->name('form.timbangan');
+    Route::get('/report-gk', \App\Livewire\ViewReportBS::class)->name('report.gk');
 
-    Route::post('/emit_weight', [FormTimbangan::class, 'handleWeightData']);
+    Route::post('/emit_weight', [\App\Livewire\FormTimbangan::class, 'handleWeightData']);
 });

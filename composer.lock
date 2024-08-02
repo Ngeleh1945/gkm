@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "8445f3ea43736d7d704cb4215547bd1a",
+    "content-hash": "c0561d82236b5e4f7be163c09281f442",
     "packages": [
         {
             "name": "bacon/bacon-qr-code",
@@ -3293,6 +3293,133 @@
                 {
                     "url": "https://www.patreon.com/yoeunes",
                     "type": "patreon"
+                }
+            ],
+            "time": "2024-05-23T09:51:41+00:00"
+        },
+        {
+            "name": "php-flasher/php-flasher",
+            "version": "v2.0.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/php-flasher/php-flasher.git",
+                "reference": "b07c52e64330b4a9c9f96701200205a042c7d453"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/php-flasher/php-flasher/zipball/b07c52e64330b4a9c9f96701200205a042c7d453",
+                "reference": "b07c52e64330b4a9c9f96701200205a042c7d453",
+                "shasum": ""
+            },
+            "require": {
+                "ext-intl": "*",
+                "php": ">=8.2"
+            },
+            "require-dev": {
+                "illuminate/routing": "^11.0",
+                "illuminate/support": "^11.0",
+                "larastan/larastan": "^2.9.6",
+                "laravel/octane": "^2.3",
+                "livewire/livewire": "^3.3",
+                "mockery/mockery": "^1.6.12",
+                "orchestra/testbench": "^9.0.4",
+                "overtrue/phplint": "^9.3.1",
+                "php-cs-fixer/shim": "^3.57.2",
+                "phpstan/phpstan": "^1.11.1",
+                "phpstan/phpstan-mockery": "^1.1.2",
+                "phpstan/phpstan-symfony": "^1.4.0",
+                "phpunit/phpunit": "^10.5.13",
+                "psr/container": "^1.1|^2.0",
+                "rector/rector": "^1.1.0",
+                "rector/swiss-knife": "^0.2.3",
+                "symfony/config": "^7.0",
+                "symfony/console": "^7.0",
+                "symfony/dependency-injection": "^7.0",
+                "symfony/framework-bundle": "^7.0",
+                "symfony/http-kernel": "^7.0",
+                "symfony/translation": "^7.0",
+                "symfony/twig-bundle": "^7.0",
+                "symfony/ux-twig-component": "^2.14",
+                "symplify/monorepo-builder": "^11.2.20"
+            },
+            "type": "library",
+            "extra": {
+                "phpstan": {
+                    "includes": [
+                        "extension.neon"
+                    ]
+                },
+                "laravel": {
+                    "providers": [
+                        "Flasher\\Laravel\\FlasherServiceProvider",
+                        "Flasher\\Noty\\Laravel\\FlasherNotyServiceProvider",
+                        "Flasher\\Notyf\\Laravel\\FlasherNotyfServiceProvider",
+                        "Flasher\\SweetAlert\\Laravel\\FlasherSweetAlertServiceProvider",
+                        "Flasher\\Toastr\\Laravel\\FlasherToastrServiceProvider"
+                    ],
+                    "aliases": {
+                        "Flasher": "Flasher\\Laravel\\Facade\\Flasher",
+                        "Noty": "Flasher\\Noty\\Laravel\\Facade\\Noty",
+                        "Notyf": "Flasher\\Notyf\\Laravel\\Facade\\Notyf",
+                        "SweetAlert": "Flasher\\SweetAlert\\Laravel\\Facade\\SweetAlert",
+                        "Toastr": "Flasher\\Toastr\\Laravel\\Facade\\Toastr"
+                    }
+                }
+            },
+            "autoload": {
+                "files": [
+                    "src/Prime/functions.php",
+                    "src/Prime/helpers.php",
+                    "src/Noty/Prime/functions.php",
+                    "src/Noty/Prime/helpers.php",
+                    "src/Notyf/Prime/functions.php",
+                    "src/Notyf/Prime/helpers.php",
+                    "src/SweetAlert/Prime/functions.php",
+                    "src/SweetAlert/Prime/helpers.php",
+                    "src/Toastr/Prime/functions.php",
+                    "src/Toastr/Prime/helpers.php"
+                ],
+                "psr-4": {
+                    "Flasher\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Younes ENNAJI",
+                    "email": "younes.ennaji.pro@gmail.com",
+                    "homepage": "https://www.linkedin.com/in/younes--ennaji/",
+                    "role": "Developer"
+                }
+            ],
+            "description": "The core repository for PHPFlasher, hosting the source code, contributions, issue tracking, and discussions for the PHPFlasher project. This mono-repo serves as the hub for development and community engagement.",
+            "homepage": "https://php-flasher.io",
+            "keywords": [
+                "contributions",
+                "discussions",
+                "flash-messages",
+                "issue-tracking",
+                "notifications",
+                "open-source",
+                "php",
+                "phpflasher",
+                "user-feedback"
+            ],
+            "support": {
+                "issues": "https://github.com/php-flasher/php-flasher/issues",
+                "source": "https://github.com/php-flasher/php-flasher"
+            },
+            "funding": [
+                {
+                    "url": "https://www.paypal.com/paypalme/yoeunes",
+                    "type": "custom"
+                },
+                {
+                    "url": "https://github.com/yoeunes",
+                    "type": "github"
                 }
             ],
             "time": "2024-05-23T09:51:41+00:00"

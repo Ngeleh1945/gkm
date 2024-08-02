@@ -61,8 +61,8 @@
                 if (td[j]) {
                     txtValue = td[j].textContent || td[j].innerText;
                     if (txtValue.toLowerCase().indexOf(filter) > -1) {
-                        tr[i].style.display = ''; // Show the row if match is found
-                        break; // No need to check other cells in the same row
+                        tr[i].style.display = '';
+                        break;
                     }
                 }
             }

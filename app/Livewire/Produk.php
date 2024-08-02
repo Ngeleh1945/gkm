@@ -19,6 +19,7 @@ class Produk extends Component
     {
         $this->resetPage();
     }
+
     public function render()
     {
         $produk = produkModel::where('deskripsi', 'like', '%' . $this->search . '%')->orWhere('kd_produk', 'like', '%' . $this->search . '%')

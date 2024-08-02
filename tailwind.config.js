@@ -16,6 +16,10 @@ export default {
             fontFamily: {
                 sans: ['Figtree', ...defaultTheme.fontFamily.sans],
             },
+            spacing: {
+                '1/2': '50%',
+                '1/3': '33.333333%',
+            },
         },
     },
 

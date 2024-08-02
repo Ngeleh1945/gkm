@@ -17,13 +17,18 @@
                     </x-nav-link>
                 </div>
                 <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
-                    <x-nav-link href="{{ route('data.produk') }}" :active="request()->routeIs('Produk')">
-                        {{ __('Produk') }}
+                    <x-nav-link href="{{ route('data.produk') }}" :active="request()->routeIs('data.produk')">
+                        {{ __('Product') }}
                     </x-nav-link>
                 </div>
                 <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
-                    <x-nav-link href="{{ route('form.timbangan') }}" :active="request()->routeIs('FormTimbangan')">
-                        {{ __('Form Timbangan') }}
+                    <x-nav-link href="{{ route('form.timbangan') }}" :active="request()->routeIs('form.timbangan')">
+                        {{ __('Weighing Form') }}
+                    </x-nav-link>
+                </div>
+                <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
+                    <x-nav-link href="{{ route('report.gk') }}" :active="request()->routeIs('report.gk')">
+                        {{ __('Report GK') }}
                     </x-nav-link>
                 </div>
             </div>
@@ -111,7 +116,6 @@
                         </x-slot>
 
                         <x-slot name="content">
-                            <!-- Account Management -->
                             <div class="block px-4 py-2 text-xs text-gray-400">
                                 {{ __('Manage Account') }}
                             </div>
