@@ -5,14 +5,25 @@ window.Alpine = Alpine;
 
 Alpine.start();
 
-document.addEventListener('alpine:init', () => {
-    Alpine.data('yourComponent', () => ({
-        years: @json($years),
-        calendar1: @json($calendar1),
-        calendar2: @json($calendar2),
-    }));
+document.addEventListener('DOMContentLoaded', function () {
+    Livewire.on('yearSelected', event => {
+        console.log('Calendar1:', event.calendar1);
+        console.log('Calendar2:', event.calendar2);
+    });
 });
 
+document.addEventListener('DOMContentLoaded', function () {
+    // Initialize Flatpickr for the date inputs
+    flatpickr("#start-date", {
+        dateFormat: "d-m-Y",
+        allowInput: true,
+    });
+
+    flatpickr("#end-date", {
+        dateFormat: "d-m-Y",
+        allowInput: true,
+    });
+});
 // function submitForm() {
 //     let formData = {
 //         barcode: document.getElementById('barcode').value,

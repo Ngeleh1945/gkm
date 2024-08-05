@@ -182,10 +182,7 @@
 
     document.addEventListener('DOMContentLoaded', function() {
         document.querySelector('button[type="submit"]').addEventListener('click', function(event) {
-            event.preventDefault(); // Prevent the default form submission
-
-            // Perform your logic here
-
+            event.preventDefault();
         });
 
         document.querySelector('form').addEventListener('keydown', function(event) {
