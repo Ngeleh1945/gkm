@@ -173,3 +173,8 @@
         @endif
     </div>
 </div>
+
+
+<script>
+    console.log(document.getElementById('start-date'));
+</script>

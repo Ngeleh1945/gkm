@@ -2,6 +2,7 @@
 
 namespace App\Livewire;
 
+use DateTime;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Livewire\Component;
@@ -20,10 +21,22 @@ class ViewReportBS extends Component
     public $startWeek;
     public $finishWeek;
     public $selectedDate;
+    public $startDate;
+    public $endDate;
 
-    protected $updatesQueryString = ['search'];
+    protected $updatesQueryString = ['search', 'startDate', 'endDate'];
 
     public function updatingSearch()
+    {
+        $this->resetPage();
+    }
+
+    public function updatedStartDate()
+    {
+        $this->resetPage();
+    }
+
+    public function updatedEndDate()
     {
         $this->resetPage();
     }
@@ -83,6 +96,19 @@ class ViewReportBS extends Component
         }
     }
 
+
+    function convertDateFormat($dateFormatDdMmYyyy)
+    {
+        $date = DateTime::createFromFormat('d-m-Y', $dateFormatDdMmYyyy);
+
+        if (!$date) {
+            return "Format tanggal tidak valid";
+        }
+
+        return $date->format('Y-m-d');
+    }
+
+
     public function render()
     {
         $perPage = max((int) $this->pages, 1);
@@ -91,7 +117,7 @@ class ViewReportBS extends Component
             ->select(DB::raw('MAX(created_at) as latest_date'))
             ->value('latest_date');
 
-        // Modify the query based on the selected year, start week, and finish week
+        // Modify the query based on the selected year, start week, finish week, startDate, and endDate
         $datasGKQuery = DB::table('form_timbangan')
             ->select(
                 'form_timbangan.*',
@@ -102,20 +128,23 @@ class ViewReportBS extends Component
             ->leftJoin(DB::connection('sqlsrv2')->getDatabaseName() . '.dbo.produk', 'form_timbangan.kd_material', '=', 'produk.kd_material')
             ->leftJoin(DB::connection('sqlsrv2')->getDatabaseName() . '.dbo.karyawan', 'form_timbangan.nik', '=', 'karyawan.nik');
 
-        if ($this->selectedYear && $this->startWeek && $this->finishWeek) {
+        Log::info($this->startDate . ' and ' . $this->endDate);
+        if ($this->startDate && $this->endDate) {
+            $startDate = $this->convertDateFormat($this->startDate);
+            $endDate = $this->convertDateFormat($this->endDate);
+            Log::info('startDate conversi: ' . $startDate . ' endDate conversi: ' . $endDate);
+            $datasGKQuery->whereBetween('form_timbangan.created_at', [$startDate, $endDate]);
+            Log::info('startDate : ' . $this->startDate . ' endDate : ' . $this->endDate);
+        } elseif ($this->selectedYear && $this->startWeek && $this->finishWeek) {
             $calendarStart = DB::connection('sqlsrv2')->table('Calendar')
                 ->where('Tahun', $this->selectedYear)
                 ->where('Week', $this->startWeek)
                 ->value('Tgl_Mulai');
 
-            Log::info('Its calendar year start : ' . $this->selectedYear . 'and Finish week : ' . $this->startWeek);
             $calendarEnd = DB::connection('sqlsrv2')->table('Calendar')
                 ->where('Tahun', $this->selectedYear)
                 ->where('Week', $this->finishWeek)
                 ->value('Tgl_Selesai');
-
-            Log::info('Its calendar year end : ' . $this->selectedYear . 'and Finish week : ' . $this->finishWeek);
-            Log::info('Start : ' . $calendarStart . ' and End : ' . $calendarEnd);
 
             $datasGKQuery->whereBetween('form_timbangan.created_at', [$calendarStart, $calendarEnd]);
         } else {

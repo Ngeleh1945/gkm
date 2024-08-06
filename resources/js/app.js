@@ -1,5 +1,7 @@
 import './bootstrap';
 import Alpine from 'alpinejs';
+import flatpickr from 'flatpickr';
+import 'flatpickr/dist/flatpickr.min.css';
 
 window.Alpine = Alpine;
 
@@ -12,57 +14,37 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 });
 
+// datepicker
 document.addEventListener('DOMContentLoaded', function () {
-    // Initialize Flatpickr for the date inputs
-    flatpickr("#start-date", {
+    const startDatePicker = flatpickr("#start-date", {
         dateFormat: "d-m-Y",
         allowInput: true,
+        onChange: function(selectedDates, dateStr, instance) {
+            endDatePicker.set('minDate', dateStr);
+
+            const endDateInput = document.getElementById("end-date");
+            const endDateValue = endDateInput.value;
+            if (endDateValue && new Date(dateStr.split('-').reverse().join('-')) > new Date(endDateValue.split('-').reverse().join('-'))) {
+                endDateInput.value = dateStr;
+                endDatePicker.setDate(dateStr);
+            }
+        }
     });
 
-    flatpickr("#end-date", {
+    const endDatePicker = flatpickr("#end-date", {
         dateFormat: "d-m-Y",
         allowInput: true,
+        onOpen: function(selectedDates, dateStr, instance) {
+            const startDateInput = document.getElementById("start-date").value;
+            if (startDateInput) {
+                instance.set('minDate', startDateInput);
+            }
+        },
+        onChange: function(selectedDates, dateStr, instance) {
+            const startDateValue = document.getElementById("start-date").value;
+            if (startDateValue && new Date(dateStr.split('-').reverse().join('-')) < new Date(startDateValue.split('-').reverse().join('-'))) {
+                instance.setDate(startDateValue);
+            }
+        }
     });
 });
-// function submitForm() {
-//     let formData = {
-//         barcode: document.getElementById('barcode').value,
-//         kd_material: document.getElementById('kd_material').value,
-//         po: document.getElementById('po').value,
-//         tanggal: document.getElementById('tanggal').value,
-//         batch: document.getElementById('batch').value,
-//         nik: document.getElementById('nik').value,
-//         nama: document.getElementById('nama').value,
-//         weight: document.getElementById('weight').value,
-//         dibuat: document.getElementById('dibuat').value,
-//     };
-
-//     fetch('/submit', {
-//         method: 'POST',
-//         headers: {
-//             'Content-Type': 'application/json',
-//             'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
-//         },
-//         body: JSON.stringify(formData)
-//     })
-//     .then(response => response.json())
-//     .then(data => {
-//         let weightUnitElement = document.getElementById('weightUnit');
-
-//         if (data.status === 'success') {
-//             weightUnitElement.classList.remove('bg-red-500');
-//             weightUnitElement.classList.add('bg-lime-300');
-//         } else {
-//             weightUnitElement.classList.remove('bg-lime-300');
-//             weightUnitElement.classList.add('bg-red-500');
-//         }
-//     })
-//     .catch(error => {
-//         console.error('Error:', error);
-//         let weightUnitElement = document.getElementById('weightUnit');
-//         weightUnitElement.classList.remove('bg-lime-300');
-//         weightUnitElement.classList.add('bg-red-500');
-//     });
-// }
-
-
